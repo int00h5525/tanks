@@ -1,4 +1,4 @@
-FROM alpine AS builder
+FROM alpine:3.8 AS builder
 
 RUN apk --no-cache add build-base m4 markdown
 COPY . /src
