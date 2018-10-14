@@ -1,5 +1,5 @@
 BINARIES = forftanks upload.cgi
-HTML = forf.html procs.html intro.html designer.html debugger.html
+HTML = forf.html procs.html intro.html designer.html debugger.html index.html
 WWW += style.css designer.js nav.html.inc jstanks.js
 WWW += docs/assets/images/grunge.png docs/assets/js/figures.js docs/assets/js/tanks.js
 
