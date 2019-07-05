@@ -1,21 +1,29 @@
 BINARIES = forftanks upload.cgi
 HTML = forf.html procs.html intro.html designer.html debugger.html
-WWW = style.css grunge.png designer.js figures.js tanks.js nav.html.inc jstanks.js
+WWW += style.css designer.js nav.html.inc jstanks.js
+WWW += docs/assets/images/grunge.png docs/assets/js/figures.js docs/assets/js/tanks.js
 
 CFLAGS = -Wall
 
+DESTDIR = /opt/tanks
+
 all: $(BINARIES) $(HTML)
 
-install:
-	install -d $(DESTDIR)/usr/bin
-	install run-tanks $(DESTDIR)/usr/bin
-	install forftanks $(DESTDIR)/usr/bin
+install: $(BINARIES) $(HTML)
+	install -d $(DESTDIR)/bin
+	install go.sh $(DESTDIR)/bin
+	install round.sh $(DESTDIR)/bin
+	install rank.awk $(DESTDIR)/bin
+	install summary.awk $(DESTDIR)/bin
+	install forftanks $(DESTDIR)/bin
 
-	install -d $(DESTDIR)/usr/lib/tanks
-	install designer.cgi $(DESTDIR)/usr/lib/tanks
-	install $(HTML) $(DESTDIR)/usr/lib/tanks
-	install $(WWW) $(DESTDIR)/usr/lib/tanks
-	cp -r examples $(DESTDIR)/usr/lib/tanks/examples
+	install -d -o $(id -u www) -g $(id -g www) $(DESTDIR)/www
+	install upload.cgi $(DESTDIR)/www
+	install -m 0644 $(HTML) $(DESTDIR)/www
+	install -m 0644 $(WWW) $(DESTDIR)/www
+
+	install -d $(DESTDIR)/examples
+	cp -r examples $(DESTDIR)/examples
 
 forftanks: forftanks.o ctanks.o forf.o
 forftanks: LDLIBS = -lm
