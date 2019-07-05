@@ -1,6 +1,6 @@
-FROM alpine AS builder
-
+FROM alpine:3.8 AS builder
 RUN apk --no-cache add build-base m4 markdown
+RUN adduser -S www
 COPY . /src
 RUN make -C /src DESTDIR=/tanks install
 
