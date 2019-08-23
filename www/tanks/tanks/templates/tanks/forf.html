@@ -1,0 +1,289 @@
+{% extends 'tanks/base.html' %}
+
+{% block pagetitle %}: Forf Manual {% endblock %}    
+{% block content %}
+<h1 class="code-line" data-line-start=1 data-line-end=3 ><a id="The_Forf_Language_1"></a>The Forf Language</h1>
+<p class="has-line-data" data-line-start="4" data-line-end="5">Welcome to Forf!  <em>PUNCH</em></p>
+<p class="has-line-data" data-line-start="6" data-line-end="9">Forf is a simple, postfix, stack-based programming language.  It was<br>
+designed to be used as an extension language for games.  Forf programs<br>
+run in fixed size memory and can be time-constrained.</p>
+<p class="has-line-data" data-line-start="10" data-line-end="11">Forf was heavily influenced by the PostScript programming language.</p>
+<h1 class="code-line" data-line-start=13 data-line-end=15 ><a id="About_Stacks_13"></a>About Stacks</h1>
+<p class="has-line-data" data-line-start="16" data-line-end="22">Central to the operation of Forf is the notion of a stack.  A stack is a<br>
+last-in-first-out (LIFO) list, like a stack of dishes.  Items can be<br>
+“pushed” onto the top of the stack, or “popped” off the top of the stack.<br>
+Items may only be pushed or popped, meaning the top stack element is the<br>
+only element that can be accessed.  To get to the third item down in a<br>
+stack, it is necessary to first pop two items off.</p>
+<h1 class="code-line" data-line-start=24 data-line-end=26 ><a id="Data_Types_24"></a>Data Types</h1>
+<p class="has-line-data" data-line-start="27" data-line-end="28">There are three data types in Forf: Integers, Substacks, and Procedures.</p>
+<h2 class="code-line" data-line-start=30 data-line-end=32 ><a id="Integers_30"></a>Integers</h2>
+<p class="has-line-data" data-line-start="33" data-line-end="36">Integers are stored as the “long” type and have whatever boundaries the<br>
+host CPU and C compiler enforce.  They may be entered in decimal (12),<br>
+octal (014), or hex (0xC), and may be positive or negative.</p>
+<p class="has-line-data" data-line-start="37" data-line-end="38">The following are valid integers:</p>
+<ul>
+<li class="has-line-data" data-line-start="39" data-line-end="40">58</li>
+<li class="has-line-data" data-line-start="40" data-line-end="41">-58</li>
+<li class="has-line-data" data-line-start="41" data-line-end="42">0x3A (hex)</li>
+<li class="has-line-data" data-line-start="42" data-line-end="43">072  (octal)</li>
+</ul>
+<h2 class="code-line" data-line-start=45 data-line-end=47 ><a id="Procedures_45"></a>Procedures</h2>
+<p class="has-line-data" data-line-start="48" data-line-end="53">Data is read one by one from your program and either pushed onto the<br>
+data stack (integers and substacks) or evaluated (procedures).  When a<br>
+procedures is evaluated, it pops zero or more elements off the data<br>
+stack, does something with them, and then pushes zero or more elements<br>
+back onto the stack.</p>
+<p class="has-line-data" data-line-start="54" data-line-end="56">The “+” procedure, for instance, pops two values, adds them, and pushes<br>
+the result.  The following data stack:</p>
+<pre><code>[bottom] 58 88 5 [top]
+</code></pre>
+<p class="has-line-data" data-line-start="59" data-line-end="60">When given to the “+” procedure, would yield:</p>
+<pre><code>[bottom] 58 93 [top]
+</code></pre>
+<h2 class="code-line" data-line-start=64 data-line-end=66 ><a id="Substacks_64"></a>Substacks</h2>
+<p class="has-line-data" data-line-start="67" data-line-end="70">Substacks are groups of data on the data stack.  They are used only by<br>
+the “if” and “ifelse” procedures, and are denoted by “{” (start<br>
+substack) and “}” (end substack).  Substacks may be nested.</p>
+<p class="has-line-data" data-line-start="71" data-line-end="72">The following will result in 58 on the top of the stack:</p>
+<pre><code>5 8 &lt; { 50 8 + } { 50 8 - } ifelse
+</code></pre>
+<h2 class="code-line" data-line-start=76 data-line-end=78 ><a id="Comments_76"></a>Comments</h2>
+<p class="has-line-data" data-line-start="79" data-line-end="80">Anything inside parenthesis is ignored by the forf interpreter.</p>
+<h1 class="code-line" data-line-start=83 data-line-end=85 ><a id="Builtin_Procedures_83"></a>Built-in Procedures</h1>
+<p class="has-line-data" data-line-start="86" data-line-end="88">The following procedures are built in to Forf.  Since the language was<br>
+designed to be extended, your game provides additional procedures.</p>
+<h2 class="code-line" data-line-start=90 data-line-end=92 ><a id="Unary_Operations_90"></a>Unary Operations</h2>
+<p class="has-line-data" data-line-start="93" data-line-end="94">These procedures pop one value and push one.</p>
+<ul>
+<li class="has-line-data" data-line-start="95" data-line-end="96"><code>x ~</code>   (bitwise invert)</li>
+<li class="has-line-data" data-line-start="96" data-line-end="97"><code>x !</code>   (logical not)</li>
+<li class="has-line-data" data-line-start="97" data-line-end="98"><code>x abs</code> (absolute value)</li>
+</ul>
+<h2 class="code-line" data-line-start=100 data-line-end=102 ><a id="Binary_Operations_100"></a>Binary Operations</h2>
+<p class="has-line-data" data-line-start="103" data-line-end="105">The following procedures pop two values and push one.  They work as in<br>
+an RPN calculator, meaning that <code>8 4 /</code> yields <code>2</code>.</p>
+<ul>
+<li class="has-line-data" data-line-start="106" data-line-end="107"><code>y x +</code>  (y + x)</li>
+<li class="has-line-data" data-line-start="107" data-line-end="108"><code>y x -</code>  (y - x)</li>
+<li class="has-line-data" data-line-start="108" data-line-end="109"><code>y x *</code>  (y * x)</li>
+<li class="has-line-data" data-line-start="109" data-line-end="110"><code>y x /</code>  (y / x)</li>
+<li class="has-line-data" data-line-start="110" data-line-end="111"><code>y x %</code>  (y modulo x)</li>
+<li class="has-line-data" data-line-start="111" data-line-end="112"><code>y x &amp;</code>  (y and x)</li>
+<li class="has-line-data" data-line-start="112" data-line-end="113"><code>y x |</code>  (y or x)</li>
+<li class="has-line-data" data-line-start="113" data-line-end="114"><code>y x ^</code>  (x xor x)</li>
+<li class="has-line-data" data-line-start="114" data-line-end="115"><code>y x &lt;&lt;</code> (y shifted left by x)</li>
+<li class="has-line-data" data-line-start="115" data-line-end="116"><code>y x &gt;&gt;</code> (y shifted right by x)</li>
+</ul>
+<h2 class="code-line" data-line-start=118 data-line-end=120 ><a id="Comparison_118"></a>Comparison</h2>
+<p class="has-line-data" data-line-start="121" data-line-end="123">These procedures pop two numbers and compare them, pushing <code>1</code> if the<br>
+comparison is true, <code>0</code> if false.  For instance, <code>5 3 &gt;</code> yields <code>1</code>.</p>
+<ul>
+<li class="has-line-data" data-line-start="124" data-line-end="125"><code>y x &gt;</code>  (y greater than x)</li>
+<li class="has-line-data" data-line-start="125" data-line-end="126"><code>y x &gt;=</code> (y greater than or equal to x)</li>
+<li class="has-line-data" data-line-start="126" data-line-end="127"><code>y x &lt;</code>  (y less than x)</li>
+<li class="has-line-data" data-line-start="127" data-line-end="128"><code>y x &lt;=</code> (y less than or equal to x)</li>
+<li class="has-line-data" data-line-start="128" data-line-end="129"><code>y x =</code>  (y equal to x)</li>
+<li class="has-line-data" data-line-start="129" data-line-end="130"><code>y x &lt;&gt;</code> (y not equal to x)</li>
+</ul>
+<h2 class="code-line" data-line-start=132 data-line-end=134 ><a id="Conditional_Procedures_132"></a>Conditional Procedures</h2>
+<ul>
+<li class="has-line-data" data-line-start="135" data-line-end="136"><code>x { i ... } if</code>                (if x, evaluate i)</li>
+<li class="has-line-data" data-line-start="136" data-line-end="137"><code>x { i ... } { e ... } ifelse</code>  (if x, evaluate i, otherwise evaluate e)</li>
+</ul>
+<h2 class="code-line" data-line-start=139 data-line-end=141 ><a id="Stack_Manipulation_139"></a>Stack Manipulation</h2>
+<ul>
+<li class="has-line-data" data-line-start="142" data-line-end="143"><code>x pop</code>    (discard x)</li>
+<li class="has-line-data" data-line-start="143" data-line-end="144"><code>x dup</code>    (duplicate x)</li>
+<li class="has-line-data" data-line-start="144" data-line-end="145"><code>y x exch</code> (exchange x and y on the stack)</li>
+</ul>
+<h2 class="code-line" data-line-start=147 data-line-end=149 ><a id="Memory_147"></a>Memory</h2>
+<p class="has-line-data" data-line-start="150" data-line-end="153">Your game may provide you with one or more memory slots.  These are like<br>
+variables in other languages, and may persist across invocations of your<br>
+program.</p>
+<ul>
+<li class="has-line-data" data-line-start="154" data-line-end="155"><code>y x mset</code> (store y in slot x)</li>
+<li class="has-line-data" data-line-start="155" data-line-end="156"><code>x mget</code>   (retrieve value in slot x)</li>
+</ul>
+<h1 class="code-line" data-line-start=158 data-line-end=160 ><a id="Examples_158"></a>Examples</h1>
+<p class="has-line-data" data-line-start="161" data-line-end="162">Compute 58²:</p>
+<pre><code>58 58 *
+</code></pre>
+<p class="has-line-data" data-line-start="165" data-line-end="166">Compute 58³:</p>
+<pre><code>58 58 58 * *
+</code></pre>
+<p class="has-line-data" data-line-start="169" data-line-end="170">Another way to compute 58³:</p>
+<pre><code>58 dup dup * *
+</code></pre>
+<p class="has-line-data" data-line-start="174" data-line-end="175">The ifelse example, which does a comparison and puts 58 on the stack:</p>
+<pre><code>5 8 &lt; { 50 8 + } { 50 8 - } ifelse
+</code></pre>
+<p class="has-line-data" data-line-start="178" data-line-end="179">Another way to do that:</p>
+<pre><code>50 5 8 &lt; { 8 + } { 8 - } ifelse
+</code></pre>
+<p class="has-line-data" data-line-start="182" data-line-end="183">Yet another way:</p>
+<pre><code>50 8 5 8 &lt; { + } { - } ifelse
+</code></pre>
+<p class="has-line-data" data-line-start="186" data-line-end="187">Is memory slot 3 greater than 100?</p>
+<pre><code>3 mget 100 &gt;
+</code></pre>
+<p class="has-line-data" data-line-start="190" data-line-end="191">Given x, if x² is greater than 100 yield x², otherwise 0:</p>
+<pre><code>dup dup * 100 &gt; { dup * } { pop 0 } ifelse
+</code></pre>
+<p class="has-line-data" data-line-start="194" data-line-end="195">Another way to do the same thing:</p>
+<pre><code>dup * dup 100 &lt; { pop 0 } if
+</code></pre>
+<p class="has-line-data" data-line-start="198" data-line-end="200">Given coordinates (x, y) on the stack, is the distance to (x, y) less<br>
+than 88?  This compares x²+y² against 88².</p>
+<pre><code>dup * exch dup * + 88 88 * &lt;
+</code></pre>
+<p class="has-line-data" data-line-start="203" data-line-end="204">Perform different actions given some number between 0 and 3:</p>
+<pre><code>dup 0 = { action0 } if
+dup 1 = { action1 } if
+dup 2 = { action2 } if
+dup 3 = { action3 } if
+pop
+</code></pre>
+{% endblock %}
+<h1 class="code-line" data-line-start=1 data-line-end=3 ><a id="The_Forf_Language_1"></a>The Forf Language</h1>
+<p class="has-line-data" data-line-start="4" data-line-end="5">Welcome to Forf!  <em>PUNCH</em></p>
+<p class="has-line-data" data-line-start="6" data-line-end="9">Forf is a simple, postfix, stack-based programming language.  It was<br>
+designed to be used as an extension language for games.  Forf programs<br>
+run in fixed size memory and can be time-constrained.</p>
+<p class="has-line-data" data-line-start="10" data-line-end="11">Forf was heavily influenced by the PostScript programming language.</p>
+<h1 class="code-line" data-line-start=13 data-line-end=15 ><a id="About_Stacks_13"></a>About Stacks</h1>
+<p class="has-line-data" data-line-start="16" data-line-end="22">Central to the operation of Forf is the notion of a stack.  A stack is a<br>
+last-in-first-out (LIFO) list, like a stack of dishes.  Items can be<br>
+“pushed” onto the top of the stack, or “popped” off the top of the stack.<br>
+Items may only be pushed or popped, meaning the top stack element is the<br>
+only element that can be accessed.  To get to the third item down in a<br>
+stack, it is necessary to first pop two items off.</p>
+<h1 class="code-line" data-line-start=24 data-line-end=26 ><a id="Data_Types_24"></a>Data Types</h1>
+<p class="has-line-data" data-line-start="27" data-line-end="28">There are three data types in Forf: Integers, Substacks, and Procedures.</p>
+<h2 class="code-line" data-line-start=30 data-line-end=32 ><a id="Integers_30"></a>Integers</h2>
+<p class="has-line-data" data-line-start="33" data-line-end="36">Integers are stored as the “long” type and have whatever boundaries the<br>
+host CPU and C compiler enforce.  They may be entered in decimal (12),<br>
+octal (014), or hex (0xC), and may be positive or negative.</p>
+<p class="has-line-data" data-line-start="37" data-line-end="38">The following are valid integers:</p>
+<ul>
+<li class="has-line-data" data-line-start="39" data-line-end="40">58</li>
+<li class="has-line-data" data-line-start="40" data-line-end="41">-58</li>
+<li class="has-line-data" data-line-start="41" data-line-end="42">0x3A (hex)</li>
+<li class="has-line-data" data-line-start="42" data-line-end="43">072  (octal)</li>
+</ul>
+<h2 class="code-line" data-line-start=45 data-line-end=47 ><a id="Procedures_45"></a>Procedures</h2>
+<p class="has-line-data" data-line-start="48" data-line-end="53">Data is read one by one from your program and either pushed onto the<br>
+data stack (integers and substacks) or evaluated (procedures).  When a<br>
+procedures is evaluated, it pops zero or more elements off the data<br>
+stack, does something with them, and then pushes zero or more elements<br>
+back onto the stack.</p>
+<p class="has-line-data" data-line-start="54" data-line-end="56">The “+” procedure, for instance, pops two values, adds them, and pushes<br>
+the result.  The following data stack:</p>
+<pre><code>[bottom] 58 88 5 [top]
+</code></pre>
+<p class="has-line-data" data-line-start="59" data-line-end="60">When given to the “+” procedure, would yield:</p>
+<pre><code>[bottom] 58 93 [top]
+</code></pre>
+<h2 class="code-line" data-line-start=64 data-line-end=66 ><a id="Substacks_64"></a>Substacks</h2>
+<p class="has-line-data" data-line-start="67" data-line-end="70">Substacks are groups of data on the data stack.  They are used only by<br>
+the “if” and “ifelse” procedures, and are denoted by “{” (start<br>
+substack) and “}” (end substack).  Substacks may be nested.</p>
+<p class="has-line-data" data-line-start="71" data-line-end="72">The following will result in 58 on the top of the stack:</p>
+<pre><code>5 8 &lt; { 50 8 + } { 50 8 - } ifelse
+</code></pre>
+<h2 class="code-line" data-line-start=76 data-line-end=78 ><a id="Comments_76"></a>Comments</h2>
+<p class="has-line-data" data-line-start="79" data-line-end="80">Anything inside parenthesis is ignored by the forf interpreter.</p>
+<h1 class="code-line" data-line-start=83 data-line-end=85 ><a id="Builtin_Procedures_83"></a>Built-in Procedures</h1>
+<p class="has-line-data" data-line-start="86" data-line-end="88">The following procedures are built in to Forf.  Since the language was<br>
+designed to be extended, your game provides additional procedures.</p>
+<h2 class="code-line" data-line-start=90 data-line-end=92 ><a id="Unary_Operations_90"></a>Unary Operations</h2>
+<p class="has-line-data" data-line-start="93" data-line-end="94">These procedures pop one value and push one.</p>
+<ul>
+<li class="has-line-data" data-line-start="95" data-line-end="96"><code>x ~</code>   (bitwise invert)</li>
+<li class="has-line-data" data-line-start="96" data-line-end="97"><code>x !</code>   (logical not)</li>
+<li class="has-line-data" data-line-start="97" data-line-end="98"><code>x abs</code> (absolute value)</li>
+</ul>
+<h2 class="code-line" data-line-start=100 data-line-end=102 ><a id="Binary_Operations_100"></a>Binary Operations</h2>
+<p class="has-line-data" data-line-start="103" data-line-end="105">The following procedures pop two values and push one.  They work as in<br>
+an RPN calculator, meaning that <code>8 4 /</code> yields <code>2</code>.</p>
+<ul>
+<li class="has-line-data" data-line-start="106" data-line-end="107"><code>y x +</code>  (y + x)</li>
+<li class="has-line-data" data-line-start="107" data-line-end="108"><code>y x -</code>  (y - x)</li>
+<li class="has-line-data" data-line-start="108" data-line-end="109"><code>y x *</code>  (y * x)</li>
+<li class="has-line-data" data-line-start="109" data-line-end="110"><code>y x /</code>  (y / x)</li>
+<li class="has-line-data" data-line-start="110" data-line-end="111"><code>y x %</code>  (y modulo x)</li>
+<li class="has-line-data" data-line-start="111" data-line-end="112"><code>y x &amp;</code>  (y and x)</li>
+<li class="has-line-data" data-line-start="112" data-line-end="113"><code>y x |</code>  (y or x)</li>
+<li class="has-line-data" data-line-start="113" data-line-end="114"><code>y x ^</code>  (x xor x)</li>
+<li class="has-line-data" data-line-start="114" data-line-end="115"><code>y x &lt;&lt;</code> (y shifted left by x)</li>
+<li class="has-line-data" data-line-start="115" data-line-end="116"><code>y x &gt;&gt;</code> (y shifted right by x)</li>
+</ul>
+<h2 class="code-line" data-line-start=118 data-line-end=120 ><a id="Comparison_118"></a>Comparison</h2>
+<p class="has-line-data" data-line-start="121" data-line-end="123">These procedures pop two numbers and compare them, pushing <code>1</code> if the<br>
+comparison is true, <code>0</code> if false.  For instance, <code>5 3 &gt;</code> yields <code>1</code>.</p>
+<ul>
+<li class="has-line-data" data-line-start="124" data-line-end="125"><code>y x &gt;</code>  (y greater than x)</li>
+<li class="has-line-data" data-line-start="125" data-line-end="126"><code>y x &gt;=</code> (y greater than or equal to x)</li>
+<li class="has-line-data" data-line-start="126" data-line-end="127"><code>y x &lt;</code>  (y less than x)</li>
+<li class="has-line-data" data-line-start="127" data-line-end="128"><code>y x &lt;=</code> (y less than or equal to x)</li>
+<li class="has-line-data" data-line-start="128" data-line-end="129"><code>y x =</code>  (y equal to x)</li>
+<li class="has-line-data" data-line-start="129" data-line-end="130"><code>y x &lt;&gt;</code> (y not equal to x)</li>
+</ul>
+<h2 class="code-line" data-line-start=132 data-line-end=134 ><a id="Conditional_Procedures_132"></a>Conditional Procedures</h2>
+<ul>
+<li class="has-line-data" data-line-start="135" data-line-end="136"><code>x { i ... } if</code>                (if x, evaluate i)</li>
+<li class="has-line-data" data-line-start="136" data-line-end="137"><code>x { i ... } { e ... } ifelse</code>  (if x, evaluate i, otherwise evaluate e)</li>
+</ul>
+<h2 class="code-line" data-line-start=139 data-line-end=141 ><a id="Stack_Manipulation_139"></a>Stack Manipulation</h2>
+<ul>
+<li class="has-line-data" data-line-start="142" data-line-end="143"><code>x pop</code>    (discard x)</li>
+<li class="has-line-data" data-line-start="143" data-line-end="144"><code>x dup</code>    (duplicate x)</li>
+<li class="has-line-data" data-line-start="144" data-line-end="145"><code>y x exch</code> (exchange x and y on the stack)</li>
+</ul>
+<h2 class="code-line" data-line-start=147 data-line-end=149 ><a id="Memory_147"></a>Memory</h2>
+<p class="has-line-data" data-line-start="150" data-line-end="153">Your game may provide you with one or more memory slots.  These are like<br>
+variables in other languages, and may persist across invocations of your<br>
+program.</p>
+<ul>
+<li class="has-line-data" data-line-start="154" data-line-end="155"><code>y x mset</code> (store y in slot x)</li>
+<li class="has-line-data" data-line-start="155" data-line-end="156"><code>x mget</code>   (retrieve value in slot x)</li>
+</ul>
+<h1 class="code-line" data-line-start=158 data-line-end=160 ><a id="Examples_158"></a>Examples</h1>
+<p class="has-line-data" data-line-start="161" data-line-end="162">Compute 58²:</p>
+<pre><code>58 58 *
+</code></pre>
+<p class="has-line-data" data-line-start="165" data-line-end="166">Compute 58³:</p>
+<pre><code>58 58 58 * *
+</code></pre>
+<p class="has-line-data" data-line-start="169" data-line-end="170">Another way to compute 58³:</p>
+<pre><code>58 dup dup * *
+</code></pre>
+<p class="has-line-data" data-line-start="174" data-line-end="175">The ifelse example, which does a comparison and puts 58 on the stack:</p>
+<pre><code>5 8 &lt; { 50 8 + } { 50 8 - } ifelse
+</code></pre>
+<p class="has-line-data" data-line-start="178" data-line-end="179">Another way to do that:</p>
+<pre><code>50 5 8 &lt; { 8 + } { 8 - } ifelse
+</code></pre>
+<p class="has-line-data" data-line-start="182" data-line-end="183">Yet another way:</p>
+<pre><code>50 8 5 8 &lt; { + } { - } ifelse
+</code></pre>
+<p class="has-line-data" data-line-start="186" data-line-end="187">Is memory slot 3 greater than 100?</p>
+<pre><code>3 mget 100 &gt;
+</code></pre>
+<p class="has-line-data" data-line-start="190" data-line-end="191">Given x, if x² is greater than 100 yield x², otherwise 0:</p>
+<pre><code>dup dup * 100 &gt; { dup * } { pop 0 } ifelse
+</code></pre>
+<p class="has-line-data" data-line-start="194" data-line-end="195">Another way to do the same thing:</p>
+<pre><code>dup * dup 100 &lt; { pop 0 } if
+</code></pre>
+<p class="has-line-data" data-line-start="198" data-line-end="200">Given coordinates (x, y) on the stack, is the distance to (x, y) less<br>
+than 88?  This compares x²+y² against 88².</p>
+<pre><code>dup * exch dup * + 88 88 * &lt;
+</code></pre>
+<p class="has-line-data" data-line-start="203" data-line-end="204">Perform different actions given some number between 0 and 3:</p>
+<pre><code>dup 0 = { action0 } if
+dup 1 = { action1 } if
+dup 2 = { action2 } if
+dup 3 = { action3 } if
+pop
+</code></pre>

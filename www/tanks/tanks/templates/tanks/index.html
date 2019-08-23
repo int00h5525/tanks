@@ -1,13 +1,12 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <title>Tanks Introduction</title>
-    <meta charset="utf-8">
-    <link rel="stylesheet" href="style.css" type="text/css">
-    <script type="application/javascript" src="tanks.js"></script>
-    <script type="application/javascript" src="figures.js"></script>
-  </head>
-  <body>
+{% extends 'tanks/base.html' %}
+{% load staticfiles %}
+
+{% block pagetitle %}Introduction{% endblock %}
+
+{% block content %}
+    <script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+    <script type="application/javascript" src="{% static 'tanks/figures.js' %}"></script>
+    <script type="application/javascript" src="{% static 'tanks/tanks.js' %}"></script>
     <h1>Tanks Introduction</h1>
 
     <table class="figure">
@@ -40,8 +39,8 @@
 
     <p>
       Tanks are programmed in Forf, a stack-based language similar to
-      PostScript.  Please read the <a href="forf.html">Forf manual</a>
-      to learn more about forf, and the <a href="procs.html">Tanks
+      PostScript.  Please read the <a href="forf">Forf manual</a>
+      to learn more about forf, and the <a href="procs">Tanks
       procedure reference</a> for a description of Tanks extensions.
     </p>
 
@@ -61,7 +60,7 @@
     </table>
 
     <p>
-      To get started, head over to the <a href="debugger.html">Tank
+      To get started, head over to the <a href="debugger">Tank
       Debugger</a> and enter the following example tank.  This tank will
       move around, turn the turret, and fire if there's something in
       front of it.
@@ -80,8 +79,8 @@ get-turret 12 + set-turret!         ( Rotate turret )
     <p>
       Obviously, this tank could be improved.  Studying the examples on
       this page should give you ideas about how to make a better tank.
-      Don't forget the <a href="forf.html">Forf manual</a> and the
-      <a href="procs.html">Tank procedure reference</a>.
+      Don't forget the <a href="forf">Forf manual</a> and the
+      <a href="procs">Tank procedure reference</a>.
     </p>
 
     <h2>Tank Specifications</h2>
@@ -143,5 +142,4 @@ get-turret 12 + set-turret!         ( Rotate turret )
     </dl>
 
     Good luck blowing everybody up!
-include(nav.html.inc)
-</html>
+{% endblock %}

@@ -1,0 +1,26 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+	  <title>Tanks {% block pagetitle %}Unknown{% endblock %}</title>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="{% static 'tanks/style.css'%}" type="text/css">
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.11.0/themes/ui-darkness/jquery-ui.css" type="text/css">
+  </head>
+  <body>
+
+    {% block content %}
+
+    {% endblock %}
+    <nav>
+      <h2>Resources</h2>
+      <ul>
+        <li><a href="summary.html">Summary</a></li>
+        <li><a href="./">Introduction</a></li>
+        <li><a href="forf">Forf manual</a></li>
+        <li><a href="procs">Tanks procedures</a></li>
+        <li><a href="debugger">Tanks debugger</a></li>
+      </ul>
+    </nav>
+  </body>
+</html>

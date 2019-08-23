@@ -1,20 +1,14 @@
 BINARIES = forftanks upload.cgi
-HTML = forf.html procs.html intro.html designer.html debugger.html
-WWW = style.css grunge.png designer.js figures.js tanks.js nav.html.inc jstanks.js
 
 CFLAGS = -Wall
 
-all: $(BINARIES) $(HTML)
+all: $(BINARIES)
 
-install:
+install: all
 	install -d $(DESTDIR)/usr/bin
-	install run-tanks $(DESTDIR)/usr/bin
 	install forftanks $(DESTDIR)/usr/bin
 
 	install -d $(DESTDIR)/usr/lib/tanks
-	install designer.cgi $(DESTDIR)/usr/lib/tanks
-	install $(HTML) $(DESTDIR)/usr/lib/tanks
-	install $(WWW) $(DESTDIR)/usr/lib/tanks
 	cp -r examples $(DESTDIR)/usr/lib/tanks/examples
 
 forftanks: forftanks.o ctanks.o forf.o
@@ -29,4 +23,4 @@ ctanks.o: ctanks.h
 
 clean:
 	rm -f *.o next-round round-*.html
-	rm -f $(BINARIES) $(HTML)
+	rm -f $(BINARIES)

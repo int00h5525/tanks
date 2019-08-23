@@ -1,24 +1,21 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <title>Tanks Procedure Reference</title>
-    <meta charset="utf-8">
-    <link rel="stylesheet" href="style.css" type="text/css">
-  </head>
-  <body>
+{% extends 'tanks/base.html' %} 
+
+{% block pagetitle %}Procedure Reference{% endblock %}
+
+{% block content %}
     <h1>Tanks Procedure Reference</h1>
 
     <p>
       Each tank's program is run once per turn.  The data and command
       stacks are reset at the beginning of each turn, but memory is not,
       so you can carry data over in memory registers if you want.  See
-      the <a href="forf.html">Forf manual</a> for more information about
+      the <a href="forf">Forf manual</a> for more information about
       the base language.
     </p>
 
     <p>
       For tank specifications (sensor range, maximum speeds, etc.), see
-      the <a href="intro.html">introduction</a>.
+      the <a href="./">introduction</a>.
     </p>
 
 
@@ -67,8 +64,6 @@
         0 and n-1, inclusive.</dd>
     </dl>
 
-include(nav.html.inc)
   </body>
 </html>
-
-    
+{% endblock %}
