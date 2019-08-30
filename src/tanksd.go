@@ -25,6 +25,13 @@ func main() {
 	)
 
 	flag.StringVar(
+		&ctx.StateDir,
+		"statedir",
+		"/state",
+		"Base state directory",
+	)
+
+	flag.StringVar(
 		&ctx.ThemeDir,
 		"theme",
 		"/theme",
