@@ -240,7 +240,10 @@ function start(id, game) {
             tanks[i].draw_tank()
         }
 
-        document.getElementById('frameid').innerHTML = idx;
+        frameelement = document.getElementById('frameid');
+        if (frameelement != null ) {
+            frameelement.innerHTML = idx;
+        }
     }
 
     function update() {
@@ -254,7 +257,10 @@ function start(id, game) {
 
         drawFrame(idx);
 
-        $('#seekslider').slider('value', idx);
+        seekslider = $('#seekslider');
+        if (seekslider.length > 0) {
+            seekslider.slider('value', idx);
+        }
     }
 
     function seekToFrame(newidx) {

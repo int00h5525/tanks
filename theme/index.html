@@ -1,13 +1,8 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <title>Tanks Introduction</title>
-    <meta charset="utf-8">
-    <link rel="stylesheet" href="style.css" type="text/css">
-    <script type="application/javascript" src="tanks.js"></script>
-    <script type="application/javascript" src="figures.js"></script>
-  </head>
-  <body>
+{% extends 'base.html' %}
+
+{% block pagetitle %}Introduction{% endblock %}
+
+{% block content %}
     <h1>Tanks Introduction</h1>
 
     <table class="figure">
@@ -16,7 +11,7 @@
         <td>
           <canvas id="shortround"></canvas>
           <script type="text/javascript">
-            start("shortround", shortround);
+            window.addEventListener('load', (event) => { start("shortround", shortround); })
           </script>
         </td>
       </tr>
@@ -54,7 +49,7 @@
         <td>
           <canvas id="default"></canvas>
           <script type="text/javascript">
-            start("default", default_);
+            window.addEventListener('load', (event) => { start("default", default_); })
           </script>
         </td>
       </tr>
@@ -92,7 +87,7 @@ get-turret 12 + set-turret!         ( Rotate turret )
         <td>
           <canvas id="antlion"></canvas>
           <script type="text/javascript">
-            start("antlion", antlion);
+            window.addEventListener('load', (event) => { start("antlion", antlion); })
           </script>
         </td>
       </tr>
@@ -143,5 +138,6 @@ get-turret 12 + set-turret!         ( Rotate turret )
     </dl>
 
     Good luck blowing everybody up!
-include(nav.html.inc)
-</html>
+    <script type="application/javascript" src="tanks.js"></script>
+    <script type="application/javascript" src="figures.js"></script>
+{% endblock %}
