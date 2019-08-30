@@ -3,6 +3,9 @@ package main
 import (
 	"net/http"
 	"log"
+	"strings"
+	"os"
+	"github.com/flosch/pongo2"
 )
 
 type FurtiveResponseWriter struct {
@@ -24,6 +27,45 @@ func (w FurtiveResponseWriter) Header() http.Header {
         return w.w.Header()
 }
 
+func (ctx *Instance) staticHandler(w http.ResponseWriter, req *http.Request) {
+	path := req.URL.Path
+
+	if strings.Contains(path, "..") {
+		http.Error(w, "Invalid URL path", http.StatusBadRequest)
+		return
+	}
+
+	if path == "/" {
+		path = "/index.html"
+	}
+
+	actual_path := ctx.ThemePath(path)
+	f, err := os.Open(actual_path)
+	if err != nil {
+		http.NotFound(w, req)
+		return
+	}
+	defer f.Close()
+
+	d, err := f.Stat()
+	if err != nil {
+		http.NotFound(w, req)
+		return
+	}
+
+	if strings.HasSuffix(actual_path, ".html") {
+		tmpl, err := pongo2.FromFile(actual_path)
+		if err != nil {
+			log.Print(err)
+			http.NotFound(w, req)
+			return
+		}
+		tmpl.ExecuteWriter(nil, w)
+	} else {
+		http.ServeContent(w, req, path, d.ModTime(), f)
+	}
+}
+
 
 func (ctx *Instance) ServeHTTP(wOrig http.ResponseWriter, r *http.Request) {
 	w := FurtiveResponseWriter{
@@ -38,4 +80,8 @@ func (ctx *Instance) ServeHTTP(wOrig http.ResponseWriter, r *http.Request) {
 		r.URL,
 		*w.statusCode,
 	)
+}
+
+func (ctx *Instance) BindHandlers() {
+	ctx.mux.HandleFunc(ctx.Base+"/", ctx.staticHandler)
 }
